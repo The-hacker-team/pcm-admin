@@ -150,15 +150,106 @@ export function Dashboard() {
 
       {/* Main content area */}
       <main className={classes.content}>
-        {/* Content will go here */}
-        <div style={{ padding: "1rem" }}>
-          <Text size="xl" fw={500} mb="md">
-            {active}
-          </Text>
-          <Text c="dimmed">
-            Welcome to the {active} section. Content for this section will be
-            displayed here.
-          </Text>
+        {/* Content header - hidden on small screens */}
+        <header className={classes.contentHeader}>
+          <Group justify="space-between" align="center">
+            <div>
+              <Text size="xl" fw={600} mb={4}>
+                {active}
+              </Text>
+              <Text size="sm" c="dimmed">
+                Welcome to the {active} section
+              </Text>
+            </div>
+
+            {/* Right side header - notifications and avatar */}
+            <Group gap="sm">
+              <ActionIcon variant="light" size="lg" radius="md">
+                <IconBell size={20} />
+              </ActionIcon>
+              <ActionIcon variant="light" size="lg" radius="md">
+                <IconSettings size={20} />
+              </ActionIcon>
+              <Group gap="xs">
+                <Avatar size="md" radius="xl" color="blue">
+                  <IconUser size={18} />
+                </Avatar>
+                <div style={{ textAlign: "left" }}>
+                  <Text size="sm" fw={500}>
+                    Admin User
+                  </Text>
+                  <Text size="xs" c="dimmed">
+                    Administrator
+                  </Text>
+                </div>
+              </Group>
+            </Group>
+          </Group>
+        </header>
+
+        {/* Active content based on navigation */}
+        <div className={classes.contentBody}>
+          {active === "Overview" && (
+            <div>
+              <Text size="lg" fw={500} mb="md">
+                Dashboard Overview
+              </Text>
+              <Text c="dimmed" mb="lg">
+                Here you can view key metrics and recent activities across your
+                platform.
+              </Text>
+              {/* Add your overview content here */}
+            </div>
+          )}
+
+          {active === "Register users" && (
+            <div>
+              <Text size="lg" fw={500} mb="md">
+                User Registration
+              </Text>
+              <Text c="dimmed" mb="lg">
+                Register new users to the platform and manage their access
+                levels.
+              </Text>
+              {/* Add your user registration form here */}
+            </div>
+          )}
+
+          {active === "Register Members" && (
+            <div>
+              <Text size="lg" fw={500} mb="md">
+                Member Registration
+              </Text>
+              <Text c="dimmed" mb="lg">
+                Register new members and manage their membership details.
+              </Text>
+              {/* Add your member registration form here */}
+            </div>
+          )}
+
+          {active === "Announcements" && (
+            <div>
+              <Text size="lg" fw={500} mb="md">
+                Announcements
+              </Text>
+              <Text c="dimmed" mb="lg">
+                Create and manage announcements for your community.
+              </Text>
+              {/* Add your announcements content here */}
+            </div>
+          )}
+
+          {active === "UpComing events" && (
+            <div>
+              <Text size="lg" fw={500} mb="md">
+                Upcoming Events
+              </Text>
+              <Text c="dimmed" mb="lg">
+                View and manage upcoming events and activities.
+              </Text>
+              {/* Add your events content here */}
+            </div>
+          )}
         </div>
       </main>
     </div>
