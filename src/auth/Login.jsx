@@ -35,7 +35,7 @@ export function Login() {
 
       if (data?.token) {
         localStorage.setItem("token", data.token);
-        navigate("/overview");
+        navigate("/dashboard");
       } else {
         setError(data?.message || "Login failed");
       }
