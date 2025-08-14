@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Icon2fa,
   IconBellRinging,
@@ -30,6 +30,8 @@ import {
 } from "@mantine/core";
 // import { MantineLogo } from "@mantinex/mantine-logo";
 import classes from "./dashboard.module.css";
+import { getUserFromToken, clearAuth } from "../utils/auth";
+import { useNavigate } from "react-router-dom";
 
 const data = [
   { link: "", label: "Overview", icon: IconDashboard },
@@ -40,8 +42,27 @@ const data = [
 ];
 
 export function Dashboard() {
+  const navigate = useNavigate();
   const [active, setActive] = useState("Overview");
   const [mobileNavOpened, setMobileNavOpened] = useState(false);
+  const [user, setUser] = useState(null);
+  console.log("User from token:", user);
+  // Get user details on component mount
+  useEffect(() => {
+    const userDetails = getUserFromToken();
+    if (userDetails) {
+      setUser(userDetails);
+    } else {
+      // If no valid token, redirect to login
+      navigate("/");
+    }
+  }, [navigate]);
+
+  // Handle logout
+  const handleLogout = () => {
+    clearAuth();
+    navigate("/");
+  };
 
   const links = data.map((item) => (
     <a
@@ -90,7 +111,7 @@ export function Dashboard() {
                 <IconUser size={16} />
               </Avatar>
               <Text size="sm" hiddenFrom="xs">
-                Admin
+                {user?.name || user?.email || "Admin"}
               </Text>
             </Group>
           </Group>
@@ -140,7 +161,10 @@ export function Dashboard() {
           <a
             href="#"
             className={classes.link}
-            onClick={(event) => event.preventDefault()}
+            onClick={(event) => {
+              event.preventDefault();
+              handleLogout();
+            }}
           >
             <IconLogout className={classes.linkIcon} stroke={1.5} />
             <span>Logout</span>
@@ -155,31 +179,22 @@ export function Dashboard() {
           <Group justify="space-between" align="center">
             <div>
               <Text size="xl" fw={600} mb={4}>
-                {active}
-              </Text>
-              <Text size="sm" c="dimmed">
-                Welcome to the {active} section
+                {`${user?.firstName} ${user?.lastName}`}
               </Text>
             </div>
 
             {/* Right side header - notifications and avatar */}
             <Group gap="sm">
-              <ActionIcon variant="light" size="lg" radius="md">
-                <IconBell size={20} />
-              </ActionIcon>
-              <ActionIcon variant="light" size="lg" radius="md">
-                <IconSettings size={20} />
-              </ActionIcon>
               <Group gap="xs">
                 <Avatar size="md" radius="xl" color="blue">
                   <IconUser size={18} />
                 </Avatar>
                 <div style={{ textAlign: "left" }}>
                   <Text size="sm" fw={500}>
-                    Admin User
+                    {user?.name || user?.email || "Admin User"}
                   </Text>
                   <Text size="xs" c="dimmed">
-                    Administrator
+                    {user?.role || "Administrator"}
                   </Text>
                 </div>
               </Group>

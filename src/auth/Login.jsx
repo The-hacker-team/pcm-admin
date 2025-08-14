@@ -12,6 +12,7 @@ import classes from "./auth.module.css";
 import { postRequest } from "../api";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { decodeJWTToken } from "../utils/auth";
 
 export function Login() {
   const navigate = useNavigate();
@@ -34,7 +35,18 @@ export function Login() {
       }
 
       if (data?.token) {
+        // Store the token
         localStorage.setItem("token", data.token);
+
+        // Decode token to get user details
+        const userDetails = decodeJWTToken(data.token);
+        console.log("Decoded user details:", userDetails);
+
+        // Optionally store user details separately for easy access
+        if (userDetails) {
+          localStorage.setItem("user", JSON.stringify(userDetails));
+        }
+
         navigate("/dashboard");
       } else {
         setError(data?.message || "Login failed");
