@@ -1,11 +1,107 @@
+/* Container for the entire dashboard layout */
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* Header bar that appears on all screen sizes */
+.headerBar {
+  height: 60px;
+  padding: 0 var(--mantine-spacing-md);
+  border-bottom: 1px solid
+    light-dark(var(--mantine-color-gray-3), var(--mantine-color-dark-4));
+  background: light-dark(
+    var(--mantine-color-white),
+    var(--mantine-color-dark-7)
+  );
+  position: relative;
+  z-index: 200;
+}
+
+/* Overlay for mobile navigation */
+.overlay {
+  position: fixed;
+  top: 60px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 100;
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .overlay {
+    display: block;
+  }
+}
+
+/* Navigation sidebar */
 .navbar {
-  height: 700px;
   width: 300px;
   padding: var(--mantine-spacing-md);
   display: flex;
   flex-direction: column;
   border-right: 1px solid
     light-dark(var(--mantine-color-gray-3), var(--mantine-color-dark-4));
+  background: light-dark(
+    var(--mantine-color-white),
+    var(--mantine-color-dark-7)
+  );
+  height: calc(100vh - 60px);
+  overflow-y: auto;
+  transition: transform 0.3s ease;
+}
+
+/* Desktop layout */
+@media (min-width: 769px) {
+  .container {
+    flex-direction: row;
+  }
+
+  .headerBar {
+    display: none; /* Hide header bar on desktop, navbar header will show */
+  }
+
+  .navbar {
+    height: 100vh;
+    position: static;
+    transform: none !important;
+  }
+}
+
+/* Mobile layout */
+@media (max-width: 768px) {
+  .navbar {
+    position: fixed;
+    top: 60px;
+    left: 0;
+    z-index: 150;
+    transform: translateX(-100%);
+    box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
+  }
+
+  .mobileNavOpen {
+    transform: translateX(0);
+  }
+}
+
+/* Main content area */
+.content {
+  flex: 1;
+  overflow-y: auto;
+  background: light-dark(
+    var(--mantine-color-gray-0),
+    var(--mantine-color-dark-8)
+  );
+}
+
+@media (min-width: 769px) {
+  .content {
+    margin-left: 0; /* No margin needed as it's in flex layout */
+  }
 }
 
 .navbarMain {
@@ -35,8 +131,9 @@
   padding: var(--mantine-spacing-xs) var(--mantine-spacing-sm);
   border-radius: var(--mantine-radius-sm);
   font-weight: 500;
+  transition: all 0.2s ease;
 
-  @mixin hover {
+  &:hover {
     background-color: light-dark(
       var(--mantine-color-gray-0),
       var(--mantine-color-dark-6)
