@@ -46,7 +46,7 @@ export function Dashboard() {
   const [active, setActive] = useState("Overview");
   const [mobileNavOpened, setMobileNavOpened] = useState(false);
   const [user, setUser] = useState(null);
-  console.log("User from token:", user);
+  
   // Get user details on component mount
   useEffect(() => {
     const userDetails = getUserFromToken();
