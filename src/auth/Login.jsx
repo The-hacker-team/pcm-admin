@@ -12,7 +12,6 @@ import classes from "./auth.module.css";
 import { login } from "../api";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-// import { useNavigate } from "react-router-dom";
 
 export function Login() {
   const navigate = useNavigate();
@@ -34,7 +33,7 @@ export function Login() {
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
-        if (data.success) {
+        if (data) {
           localStorage.setItem("token", data.token);
           navigate("/overview");
         }
@@ -57,12 +56,8 @@ export function Login() {
           onChange={(event) => setEmail(event.target.value)}
           mt="md"
           error={error ? "Invalid email or password" : null}
-          // onKeyDown={(event) => {
-          //   if (event.key === "Enter") {
-          //     handleSubmit(event);
-          //   }
-          // }}
         />
+
         <PasswordInput
           label="Password"
           placeholder="Your password"
@@ -71,11 +66,6 @@ export function Login() {
           radius="md"
           value={password}
           onChange={(event) => setPassword(event.target.value)}
-          // onKeyDown={(event) => {
-          //   if (event.key === "Enter") {
-          //     handleSubmit(event);
-          //   }
-          // }}
         />
 
         <Checkbox label="Keep me logged in" mt="xl" size="md" />
