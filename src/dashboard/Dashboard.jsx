@@ -15,13 +15,11 @@ import { Code, Group } from "@mantine/core";
 import classes from "./dashboard.module.css";
 
 const data = [
-  { link: "", label: "Notifications", icon: IconBellRinging },
-  { link: "", label: "Billing", icon: IconReceipt2 },
-  { link: "", label: "Security", icon: IconFingerprint },
-  { link: "", label: "SSH Keys", icon: IconKey },
-  { link: "", label: "Databases", icon: IconDatabaseImport },
-  { link: "", label: "Authentication", icon: Icon2fa },
-  { link: "", label: "Other Settings", icon: IconSettings },
+  { link: "", label: "Overview", icon: IconBellRinging },
+  { link: "", label: "Register users", icon: IconReceipt2 },
+  { link: "", label: "Register Members", icon: IconFingerprint },
+  { link: "", label: "Announcements", icon: IconKey },
+  { link: "", label: "UpComing events", icon: IconDatabaseImport },
 ];
 
 export function Dashboard() {
@@ -48,7 +46,7 @@ export function Dashboard() {
       <div className={classes.navbarMain}>
         <Group className={classes.header} justify="space-between">
           {/* <MantineLogo size={28} /> */}
-          <Code fw={700}>v3.1.2</Code>
+          PCM Admin
         </Group>
         {links}
       </div>
