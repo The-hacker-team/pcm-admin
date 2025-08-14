@@ -13,6 +13,11 @@ import {
   IconX,
   IconUser,
   IconBell,
+  IconDashboard,
+  IconUserPlus,
+  IconUsers,
+  IconSpeakerphone,
+  IconCalendarEvent,
 } from "@tabler/icons-react";
 import {
   Code,
@@ -27,11 +32,11 @@ import {
 import classes from "./dashboard.module.css";
 
 const data = [
-  { link: "", label: "Overview", icon: IconBellRinging },
-  { link: "", label: "Register users", icon: IconReceipt2 },
-  { link: "", label: "Register Members", icon: IconFingerprint },
-  { link: "", label: "Announcements", icon: IconKey },
-  { link: "", label: "UpComing events", icon: IconDatabaseImport },
+  { link: "", label: "Overview", icon: IconDashboard },
+  { link: "", label: "Register users", icon: IconUserPlus },
+  { link: "", label: "Register Members", icon: IconUsers },
+  { link: "", label: "Announcements", icon: IconSpeakerphone },
+  { link: "", label: "UpComing events", icon: IconCalendarEvent },
 ];
 
 export function Dashboard() {
