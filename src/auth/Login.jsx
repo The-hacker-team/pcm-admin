@@ -9,7 +9,7 @@ import {
   Title,
 } from "@mantine/core";
 import classes from "./auth.module.css";
-import { login } from "../api";
+import { postRequest } from "../api";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -19,27 +19,25 @@ export function Login() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
-  const handleSubmit = () => {
-    fetch("http://localhost:4000/api/auth/login/", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        email: email,
-        password: password,
-      }),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data);
-        if (data) {
-          localStorage.setItem("token", data.token);
-          navigate("/overview");
-        }
-        setError(data.message);
-      });
+  const handleSubmit = async () => {
+    const { data, error } = await postRequest({
+      email,
+      password,
+    });
+
+    if (error) {
+      setError(error);
+      return;
+    }
+
+    if (data?.token) {
+      localStorage.setItem("token", data.token);
+      navigate("/overview");
+    } else {
+      setError(data?.message || "Login failed");
+    }
   };
+
   return (
     <div className={classes.wrapper}>
       <Paper className={classes.form}>
