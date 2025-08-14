@@ -17,24 +17,32 @@ export function Login() {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
   const handleSubmit = async () => {
-    const { data, error } = await postRequest({
-      email,
-      password,
-    });
+    try {
+      setLoading(true);
+      const { data, error } = await postRequest({
+        email,
+        password,
+      });
 
-    if (error) {
-      setError(error);
-      return;
-    }
+      if (error) {
+        setError(error);
+        return;
+      }
 
-    if (data?.token) {
-      localStorage.setItem("token", data.token);
-      navigate("/overview");
-    } else {
-      setError(data?.message || "Login failed");
+      if (data?.token) {
+        localStorage.setItem("token", data.token);
+        navigate("/overview");
+      } else {
+        setError(data?.message || "Login failed");
+      }
+    } catch (error) {
+      setError(error.message);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -67,7 +75,16 @@ export function Login() {
         />
 
         <Checkbox label="Keep me logged in" mt="xl" size="md" />
-        <Button onClick={handleSubmit}>Login</Button>
+        <Button
+          fullWidth
+          mt="xl"
+          size="md"
+          radius="md"
+          onClick={handleSubmit}
+          loading={loading}
+        >
+          Login
+        </Button>
 
         <Text ta="center" mt="md">
           Don&apos;t have an account?{" "}
