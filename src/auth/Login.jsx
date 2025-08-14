@@ -9,8 +9,24 @@ import {
   Title,
 } from "@mantine/core";
 import classes from "./auth.module.css";
+import { login } from "../api";
+import { useState } from "react";
 
 export function Login() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    login(email, password)
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((err) => {
+        setError(err.message);
+      });
+  };
   return (
     <div className={classes.wrapper}>
       <Paper className={classes.form}>
@@ -23,6 +39,15 @@ export function Login() {
           placeholder="hello@gmail.com"
           size="md"
           radius="md"
+          value={email}
+          onChange={(event) => setEmail(event.currentTarget.value)}
+          mt="md"
+          error={error ? "Invalid email or password" : null}
+          onKeyDown={(event) => {
+            if (event.key === "Enter") {
+              handleSubmit(event);
+            }
+          }}
         />
         <PasswordInput
           label="Password"
@@ -30,9 +55,30 @@ export function Login() {
           mt="md"
           size="md"
           radius="md"
+          value={password}
+          onChange={(event) => setPassword(event.currentTarget.value)}
+          onKeyDown={(event) => {
+            if (event.key === "Enter") {
+              handleSubmit(event);
+            }
+          }}
+        />
+        <PasswordInput
+          label="Password"
+          placeholder="Your password"
+          mt="md"
+          size="md"
+          radius="md"
+          value={password}
+          onChange={(event) => setPassword(event.currentTarget.value)}
+          onKeyDown={(event) => {
+            if (event.key === "Enter") {
+              handleSubmit(event);
+            }
+          }}
         />
         <Checkbox label="Keep me logged in" mt="xl" size="md" />
-        <Button fullWidth mt="xl" size="md" radius="md">
+        <Button fullWidth mt="xl" size="md" radius="md" onClick={handleSubmit}>
           Login
         </Button>
 
