@@ -32,6 +32,7 @@ import {
 import classes from "./dashboard.module.css";
 import { getUserFromToken, clearAuth } from "../utils/auth";
 import { useNavigate } from "react-router-dom";
+import { RegisterUser } from "../components/RegisterUser";
 
 const data = [
   { link: "", label: "Overview", icon: IconDashboard },
@@ -46,7 +47,7 @@ export function Dashboard() {
   const [active, setActive] = useState("Overview");
   const [mobileNavOpened, setMobileNavOpened] = useState(false);
   const [user, setUser] = useState(null);
-  
+
   // Get user details on component mount
   useEffect(() => {
     const userDetails = getUserFromToken();
@@ -220,13 +221,13 @@ export function Dashboard() {
           {active === "Register users" && (
             <div>
               <Text size="lg" fw={500} mb="md">
-                User Registration
+                User Management
               </Text>
               <Text c="dimmed" mb="lg">
                 Register new users to the platform and manage their access
                 levels.
               </Text>
-              {/* Add your user registration form here */}
+              <RegisterUser />
             </div>
           )}
 
