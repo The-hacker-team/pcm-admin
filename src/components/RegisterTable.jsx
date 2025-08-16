@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import cx from "clsx";
 import {
   Avatar,
@@ -54,6 +54,28 @@ const data = [
 ];
 
 export function RegisterTable() {
+  const token = localStorage.getItem("token");
+  const fetchUsers = async () => {
+    try {
+      const response = await fetch("http://localhost:4000/api/auth/users", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      const data = await response.json();
+      console.log("users", data);
+      setUsers(data);
+    } catch (error) {
+      console.error("Error fetching users:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchUsers();
+  }, []);
   const [selection, setSelection] = useState(["1"]);
   const toggleRow = (id) =>
     setSelection((current) =>
