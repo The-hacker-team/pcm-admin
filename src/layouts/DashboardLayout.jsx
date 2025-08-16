@@ -1,12 +1,7 @@
 import { useState, useEffect } from "react";
+import { Outlet } from "react-router-dom";
 import {
-  Icon2fa,
-  IconBellRinging,
-  IconDatabaseImport,
-  IconFingerprint,
-  IconKey,
   IconLogout,
-  IconReceipt2,
   IconSettings,
   IconSwitchHorizontal,
   IconMenu2,
@@ -20,25 +15,10 @@ import {
   IconCalendarEvent,
   IconNote,
 } from "@tabler/icons-react";
-import {
-  Code,
-  Group,
-  Burger,
-  Button,
-  ActionIcon,
-  Text,
-  Avatar,
-  Box,
-} from "@mantine/core";
-// import { MantineLogo } from "@mantinex/mantine-logo";
-import classes from "./dashboard.module.css";
+import { Group, Burger, ActionIcon, Text, Avatar } from "@mantine/core";
+import classes from "../dashboard/dashboard.module.css";
 import { getUserFromToken, clearAuth } from "../utils/auth";
 import { useNavigate, useLocation, Link } from "react-router-dom";
-// import { RegisterUser } from "../components/RegisterUser";
-import { RegisterTable } from "../components/RegisterTable";
-import { RegisterUser } from "../pages/RegisterUser";
-// import { RegisterTable } from "../components/RegisterTable";
-// import { RegisterTable } from "../components/RegisterTable";
 
 const data = [
   { link: "/dashboard/overview", label: "Overview", icon: IconDashboard },
@@ -66,7 +46,7 @@ const data = [
   { link: "/dashboard/visitors", label: "Visitors", icon: IconUser },
 ];
 
-export function Dashboard() {
+export function DashboardLayout() {
   const navigate = useNavigate();
   const location = useLocation();
   const [active, setActive] = useState("Overview");
@@ -107,7 +87,7 @@ export function Dashboard() {
       className={classes.link}
       data-active={item.label === active || undefined}
       key={item.label}
-      onClick={() => setMobileNavOpened(false)} // Close mobile nav when item is clicked
+      onClick={() => setMobileNavOpened(false)}
       style={{ textDecoration: "none" }}
     >
       <item.icon className={classes.linkIcon} stroke={1.5} />
@@ -236,83 +216,9 @@ export function Dashboard() {
           </Group>
         </header>
 
-        {/* Active content based on navigation */}
+        {/* Active content based on route */}
         <div className={classes.contentBody}>
-          {active === "Overview" && (
-            <div>
-              <Text size="lg" fw={500} mb="md">
-                Dashboard Overview
-              </Text>
-              <Text c="dimmed" mb="lg">
-                Here you can view key metrics and recent activities across your
-                platform.
-              </Text>
-              {/* Add your overview content here */}
-            </div>
-          )}
-
-          {active === "Register users" && (
-            <div>
-              <Box
-                style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                  marginBottom: "20px",
-                }}
-              >
-                <Group>
-                  <Text size="lg" fw={500} mb="md">
-                    User Management
-                    <Text c="dimmed" mb="lg">
-                      Register new users to the platform and manage their access
-                      levels.
-                    </Text>
-                  </Text>
-                </Group>
-                <Group mb="lg">
-                  <RegisterUser />
-                </Group>
-              </Box>
-              <RegisterTable />
-            </div>
-          )}
-
-          {active === "Register Members" && (
-            <div>
-              <Text size="lg" fw={500} mb="md">
-                Member Registration
-              </Text>
-              <Text c="dimmed" mb="lg">
-                Register new members and manage their membership details.
-              </Text>
-              {/* Add your member registration form here */}
-            </div>
-          )}
-
-          {active === "Announcements" && (
-            <div>
-              <Text size="lg" fw={500} mb="md">
-                Announcements
-              </Text>
-              <Text c="dimmed" mb="lg">
-                Create and manage announcements for your community.
-              </Text>
-              {/* Add your announcements content here */}
-            </div>
-          )}
-
-          {active === "UpComing events" && (
-            <div>
-              <Text size="lg" fw={500} mb="md">
-                Upcoming Events
-              </Text>
-              <Text c="dimmed" mb="lg">
-                View and manage upcoming events and activities.
-              </Text>
-              {/* Add your events content here */}
-            </div>
-          )}
+          <Outlet />
         </div>
       </main>
     </div>

@@ -47,7 +47,7 @@ export function Login() {
           localStorage.setItem("user", JSON.stringify(userDetails));
         }
 
-        navigate("/dashboard");
+        navigate("/dashboard/overview");
       } else {
         setError(data?.message || "Login failed");
       }
