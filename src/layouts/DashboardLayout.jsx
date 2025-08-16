@@ -192,7 +192,7 @@ export function DashboardLayout() {
           <Group justify="space-between" align="center">
             <div>
               <Text size="xl" fw={600} mb={4}>
-                {`${user?.firstName} ${user?.lastName}`}
+                {user?.email || "Admin User"}
               </Text>
             </div>
 
@@ -204,7 +204,7 @@ export function DashboardLayout() {
                 </Avatar>
                 <div style={{ textAlign: "left" }}>
                   <Text size="sm" fw={500}>
-                    {user?.name || user?.email || "Admin User"}
+                    {`${user?.firstName} ${user?.lastName}`}
                   </Text>
                   <Text size="xs" c="dimmed">
                     {user?.role || "Administrator"}
