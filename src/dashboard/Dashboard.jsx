@@ -18,6 +18,7 @@ import {
   IconUsers,
   IconSpeakerphone,
   IconCalendarEvent,
+  IconNote,
 } from "@tabler/icons-react";
 import {
   Code,
@@ -45,6 +46,8 @@ const data = [
   { link: "", label: "Register Members", icon: IconUsers },
   { link: "", label: "Announcements", icon: IconSpeakerphone },
   { link: "", label: "UpComing events", icon: IconCalendarEvent },
+  { link: "", label: "Minutes", icon: IconNote },
+  { link: "", label: "Visitors", icon: IconUser },
 ];
 
 export function Dashboard() {
