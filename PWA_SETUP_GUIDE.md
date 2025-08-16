@@ -44,11 +44,30 @@ npm run preview  # Serve the built app (required for PWA testing)
 3. Open DevTools > Application > Service Workers to verify
 4. Test online requirement: Disconnect internet to see offline warning
 
-### 3. Mobile Testing
-1. Open the app on mobile browser
-2. Look for "Add to Home Screen" option
-3. Install and test online-only functionality
-4. Verify offline warning appears when disconnected
+### 3. Mobile Testing (Android)
+1. Open Chrome browser on your Android phone
+2. Navigate to your PWA URL (must be HTTPS in production)
+3. Look for "Install app" banner or tap menu (⋮) > "Add to Home screen"
+4. **For Android 12+**: Look for "Install app" in the address bar
+5. Follow the installation prompts
+6. Check your home screen - the app icon should appear
+7. Test online-only functionality and offline warning
+
+### 4. Troubleshooting Android Installation
+If the app doesn't appear on your Android home screen:
+
+**Common Issues:**
+- ❌ **Not using HTTPS**: PWA requires HTTPS (except localhost)
+- ❌ **Missing manifest**: Service worker or manifest not loading
+- ❌ **Invalid icons**: Icons must be proper PNG files
+- ❌ **Browser cache**: Clear Chrome browser cache and try again
+
+**Android-Specific Fixes:**
+1. **Clear Chrome Data**: Settings > Apps > Chrome > Storage > Clear Cache
+2. **Check Chrome Version**: Update Chrome to latest version
+3. **Manual Install**: Chrome menu > "Add to Home screen" > "Install"
+4. **Restart Phone**: Sometimes requires a device restart
+5. **Check App Drawer**: Look in Android app drawer, not just home screen
 
 ## PWA Components
 
@@ -72,8 +91,18 @@ npm run preview  # Serve the built app (required for PWA testing)
   "short_name": "PCM Admin",
   "description": "Online-Only Progressive Web App for PCM Administration",
   "display": "standalone",
+  "orientation": "portrait-primary",
   "theme_color": "#228be6",
-  "background_color": "#ffffff"
+  "background_color": "#ffffff",
+  "categories": ["business", "productivity", "utilities"],
+  "icons": [
+    { "src": "pwa-72x72.png", "sizes": "72x72", "type": "image/png" },
+    { "src": "pwa-96x96.png", "sizes": "96x96", "type": "image/png" },
+    { "src": "pwa-144x144.png", "sizes": "144x144", "type": "image/png" },
+    { "src": "pwa-192x192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "pwa-512x512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "pwa-512x512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
 }
 ```
 
@@ -113,3 +142,27 @@ Your PCM Admin Dashboard is now a fully functional **Online-Only** PWA! 🎉
 - No content is cached for offline use
 - All requests go through the network
 - Perfect for applications requiring real-time data and security
+
+## Android Installation Guide
+
+### Step-by-Step Installation on Android:
+1. **Open Chrome**: Use Chrome browser on your Android device
+2. **Visit the App**: Navigate to your PWA URL (must be HTTPS)
+3. **Look for Install Options**:
+   - Install banner appears automatically, OR
+   - Tap Chrome menu (⋮) > "Install app" or "Add to Home screen"
+4. **Confirm Installation**: Tap "Install" when prompted
+5. **Find Your App**: Check home screen or app drawer for "PCM Admin"
+
+### Android Requirements:
+- ✅ Android 5.0+ (API level 21+)
+- ✅ Chrome 76+ or Samsung Internet 10.1+
+- ✅ HTTPS connection (required for installation)
+- ✅ Valid web app manifest
+- ✅ Service worker registration
+
+### Troubleshooting Android Issues:
+- **App not showing on home screen**: Check app drawer or restart device
+- **Install prompt not appearing**: Clear Chrome cache and revisit
+- **Installation fails**: Ensure HTTPS and valid manifest
+- **App opens in browser**: Check manifest display mode is "standalone"
