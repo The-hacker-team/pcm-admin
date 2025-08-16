@@ -83,7 +83,7 @@ export function EditUser({ user, opened, onClose, onUserUpdated }) {
       const token = localStorage.getItem("token");
 
       const response = await fetch(
-        `http://localhost:4000/api/auth/users/${user.id}`,
+        `${import.meta.env.VITE_APP_API_URL}/api/auth/users/${user.id}`,
         {
           method: "PUT",
           headers: {

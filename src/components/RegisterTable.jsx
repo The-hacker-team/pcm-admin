@@ -29,13 +29,16 @@ export const RegisterTable = forwardRef((props, ref) => {
     try {
       setLoading(true);
       setError(null);
-      const response = await fetch("http://localhost:4000/api/auth/users", {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const response = await fetch(
+        `${import.meta.env.VITE_APP_API_URL}/api/auth/users`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
@@ -73,7 +76,7 @@ export const RegisterTable = forwardRef((props, ref) => {
 
     try {
       const response = await fetch(
-        `http://localhost:4000/api/auth/users/${userId}`,
+        `${import.meta.env.VITE_APP_API_URL}/api/auth/users/${userId}`,
         {
           method: "DELETE",
           headers: {
