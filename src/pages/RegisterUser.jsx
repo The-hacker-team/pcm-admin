@@ -174,12 +174,16 @@ export function RegisterUser() {
                 placeholder="Enter first name"
                 required
                 {...form.getInputProps("firstName")}
+                size="lg"
+                radius="md"
               />
               <TextInput
                 label="Last Name"
                 placeholder="Enter last name"
                 required
                 {...form.getInputProps("lastName")}
+                size="lg"
+                radius="md"
               />
             </Group>
 
@@ -189,6 +193,8 @@ export function RegisterUser() {
               required
               type="email"
               {...form.getInputProps("email")}
+              size="lg"
+              radius="md"
             />
 
             <TextInput
@@ -196,6 +202,8 @@ export function RegisterUser() {
               placeholder="1234567890"
               required
               {...form.getInputProps("phoneNumber")}
+              size="lg"
+              radius="md"
             />
 
             <Select
@@ -204,6 +212,8 @@ export function RegisterUser() {
               required
               data={roleOptions}
               {...form.getInputProps("role")}
+              size="lg"
+              radius="md"
             />
 
             <PasswordInput
@@ -211,6 +221,8 @@ export function RegisterUser() {
               placeholder="Enter password"
               required
               {...form.getInputProps("password")}
+              size="lg"
+              radius="md"
             />
 
             <Group justify="flex-end" mt="md">
@@ -223,6 +235,7 @@ export function RegisterUser() {
                   form.reset();
                 }}
                 disabled={loading}
+                radius="md"
               >
                 Cancel
               </Button>
@@ -230,6 +243,7 @@ export function RegisterUser() {
                 type="submit"
                 loading={loading}
                 leftSection={loading ? null : <IconCheck size={16} />}
+                radius="md"
               >
                 Register User
               </Button>
