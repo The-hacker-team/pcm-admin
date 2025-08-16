@@ -4,7 +4,6 @@ import {
   PasswordInput,
   Select,
   Button,
-  Paper,
   Title,
   Group,
   Stack,
@@ -15,7 +14,6 @@ import {
 import { useForm } from "@mantine/form";
 import {
   IconCheck,
-  IconX,
   IconAlertCircle,
   IconUserPlus,
 } from "@tabler/icons-react";
