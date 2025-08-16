@@ -1,17 +1,17 @@
-# PCM Admin PWA Setup Guide
+# PCM Admin Online-Only PWA Setup Guide
 
 ## Overview
-Your PCM Admin Dashboard has been successfully converted to a Progressive Web App (PWA). This means users can now:
+Your PCM Admin Dashboard has been successfully converted to an **Online-Only** Progressive Web App (PWA). This means users can:
 - Install the app on their devices (mobile, tablet, desktop)
-- Use it offline (cached content)
+- Get native app-like experience
 - Receive update notifications
-- Enjoy native app-like experience
+- **Requires internet connection to function** (no offline support)
 
 ## Features Added
 
 ### 1. PWA Configuration
 - **Manifest File**: `/dist/manifest.webmanifest` - Contains app metadata
-- **Service Worker**: `/dist/sw.js` - Handles caching and offline functionality
+- **Service Worker**: `/dist/sw.js` - Handles updates and network-only requests
 - **App Icons**: Multiple sizes (192x192, 512x512) for different devices
 
 ### 2. Installation Capability
@@ -19,10 +19,11 @@ Your PCM Admin Dashboard has been successfully converted to a Progressive Web Ap
 - App can be installed on home screen/desktop
 - Works like a native app when installed
 
-### 3. Offline Support
-- Static assets are cached automatically
-- App works offline for cached content
-- Service worker handles caching strategies
+### 3. Online-Only Operation
+- **No offline caching** - all requests go through network
+- App shows warning when internet connection is lost
+- Requires active internet connection to function
+- Service worker handles network-only requests
 
 ### 4. Update Notifications
 - Users get notified when new versions are available
@@ -41,19 +42,21 @@ npm run preview  # Serve the built app (required for PWA testing)
 1. Open `http://localhost:4173` in Chrome/Edge
 2. Look for install prompt in address bar
 3. Open DevTools > Application > Service Workers to verify
-4. Test offline: Network tab > "Offline" checkbox
+4. Test online requirement: Disconnect internet to see offline warning
 
 ### 3. Mobile Testing
 1. Open the app on mobile browser
 2. Look for "Add to Home Screen" option
-3. Install and test offline functionality
+3. Install and test online-only functionality
+4. Verify offline warning appears when disconnected
 
 ## PWA Components
 
 ### 1. PWABadge Component (`/src/components/PWABadge.jsx`)
 - Shows install prompts
 - Handles update notifications
-- Manages service worker registration
+- **Displays offline warnings when internet is lost**
+- Manages service worker registration for network-only requests
 
 ### 2. Updated Files
 - `vite.config.js` - PWA plugin configuration
@@ -67,7 +70,7 @@ npm run preview  # Serve the built app (required for PWA testing)
 {
   "name": "PCM Admin Dashboard",
   "short_name": "PCM Admin",
-  "description": "Progressive Web App for PCM Administration",
+  "description": "Online-Only Progressive Web App for PCM Administration",
   "display": "standalone",
   "theme_color": "#228be6",
   "background_color": "#ffffff"
@@ -75,10 +78,11 @@ npm run preview  # Serve the built app (required for PWA testing)
 ```
 
 ### Service Worker Features
-- Precaching of all static assets
-- Navigation route handling
+- **Network-only requests** - no offline caching
+- Navigation route handling for online requests
 - Automatic cleanup of outdated caches
 - Skip waiting for immediate activation
+- **Requires internet connection to function**
 
 ## Browser Support
 - ✅ Chrome (Desktop & Mobile)
@@ -94,10 +98,18 @@ npm run preview  # Serve the built app (required for PWA testing)
 4. Test installation prompts in production
 
 ## Benefits for Users
-- **Fast Loading**: Cached assets load instantly
-- **Offline Access**: View cached content without internet
+- **Fast Loading**: Direct network requests for real-time data
+- **Always Current**: No stale cached content - always fresh data
 - **Install Anywhere**: Works on phones, tablets, desktops
 - **Automatic Updates**: Always get the latest version
 - **Native Feel**: Full-screen, app-like experience
+- **Online Security**: Requires active connection for enhanced security
 
-Your PCM Admin Dashboard is now a fully functional PWA! 🎉
+Your PCM Admin Dashboard is now a fully functional **Online-Only** PWA! 🎉
+
+## Important Notes
+⚠️ **This PWA requires an active internet connection to function**
+- App will show warning when offline
+- No content is cached for offline use
+- All requests go through the network
+- Perfect for applications requiring real-time data and security

@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react";
 import { Button, Group, Notification, rem } from "@mantine/core";
-import { IconDownload, IconX } from "@tabler/icons-react";
+import { IconDownload, IconWifiOff } from "@tabler/icons-react";
 import { useRegisterSW } from "virtual:pwa-register/react";
 
 export function PWABadge() {
   const [showInstallPrompt, setShowInstallPrompt] = useState(false);
   const [deferredPrompt, setDeferredPrompt] = useState(null);
+  const [showOfflineWarning, setShowOfflineWarning] = useState(false);
 
   const {
-    offlineReady: [offlineReady, setOfflineReady],
     needRefresh: [needRefresh, setNeedRefresh],
     updateServiceWorker,
   } = useRegisterSW({
@@ -38,6 +38,25 @@ export function PWABadge() {
     };
   }, []);
 
+  // Handle online/offline status
+  useEffect(() => {
+    const handleOnline = () => {
+      setShowOfflineWarning(false);
+    };
+
+    const handleOffline = () => {
+      setShowOfflineWarning(true);
+    };
+
+    window.addEventListener("online", handleOnline);
+    window.addEventListener("offline", handleOffline);
+
+    return () => {
+      window.removeEventListener("online", handleOnline);
+      window.removeEventListener("offline", handleOffline);
+    };
+  }, []);
+
   const handleInstallClick = async () => {
     if (deferredPrompt) {
       deferredPrompt.prompt();
@@ -48,38 +67,43 @@ export function PWABadge() {
     }
   };
 
-  const close = () => {
-    setOfflineReady(false);
-    setNeedRefresh(false);
-    setShowInstallPrompt(false);
-  };
-
   return (
     <div
       style={{ position: "fixed", bottom: "20px", right: "20px", zIndex: 1000 }}
     >
       {/* App Update Available */}
-      {(offlineReady || needRefresh) && (
+      {needRefresh && (
         <Notification
           icon={<IconDownload style={{ width: rem(20), height: rem(20) }} />}
           color="blue"
-          title={
-            needRefresh ? "New version available!" : "App ready to work offline"
-          }
-          onClose={() => close()}
+          title="New version available!"
+          onClose={() => setNeedRefresh(false)}
           style={{ marginBottom: "10px" }}
         >
           <Group gap="xs">
             <span>
-              {needRefresh
-                ? "New version available, click on reload button to update."
-                : "App ready to work offline."}
+              New version available, click on reload button to update.
             </span>
-            {needRefresh && (
-              <Button size="xs" onClick={() => updateServiceWorker(true)}>
-                Reload
-              </Button>
-            )}
+            <Button size="xs" onClick={() => updateServiceWorker(true)}>
+              Reload
+            </Button>
+          </Group>
+        </Notification>
+      )}
+
+      {/* Offline Warning */}
+      {showOfflineWarning && (
+        <Notification
+          icon={<IconWifiOff style={{ width: rem(20), height: rem(20) }} />}
+          color="red"
+          title="No Internet Connection"
+          onClose={() => setShowOfflineWarning(false)}
+          style={{ marginBottom: "10px" }}
+        >
+          <Group gap="xs">
+            <span>
+              This app requires an internet connection to work properly.
+            </span>
           </Group>
         </Notification>
       )}
