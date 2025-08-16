@@ -4,7 +4,6 @@ import {
   IconLogout,
   IconSettings,
   IconSwitchHorizontal,
-  IconMenu2,
   IconX,
   IconUser,
   IconBell,
@@ -16,7 +15,7 @@ import {
   IconNote,
 } from "@tabler/icons-react";
 import { Group, Burger, ActionIcon, Text, Avatar } from "@mantine/core";
-import classes from "../dashboard/dashboard.module.css";
+import classes from "./dashboard.module.css";
 import { getUserFromToken, clearAuth } from "../utils/auth";
 import { useNavigate, useLocation, Link } from "react-router-dom";
 
