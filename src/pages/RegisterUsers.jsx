@@ -1,9 +1,19 @@
+import { useState, useRef } from "react";
 import { Text, Box, Group } from "@mantine/core";
 // import { RegisterUser } from '../components/RegisterUser';
 import { RegisterTable } from "../components/RegisterTable";
 import { RegisterUser } from "./RegisterUser";
 
 export function RegisterUsers() {
+  const tableRef = useRef();
+
+  const handleUserCreated = () => {
+    // Refresh the table when a user is created
+    if (tableRef.current) {
+      tableRef.current.fetchUsers();
+    }
+  };
+
   return (
     <div>
       <Box
@@ -23,10 +33,10 @@ export function RegisterUsers() {
           </Text>
         </Group>
         <Group mb="lg">
-          <RegisterUser />
+          <RegisterUser onUserCreated={handleUserCreated} />
         </Group>
       </Box>
-      <RegisterTable />
+      <RegisterTable ref={tableRef} />
     </div>
   );
 }
