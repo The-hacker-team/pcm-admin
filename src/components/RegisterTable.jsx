@@ -7,56 +7,23 @@ import {
   ScrollArea,
   Table,
   Text,
+  Loader,
+  Alert,
+  Center,
 } from "@mantine/core";
+import { IconAlertCircle } from "@tabler/icons-react";
 import classes from "./Styles.module.css";
-
-const data = [
-  {
-    id: "1",
-    avatar:
-      "https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-1.png",
-    name: "Robert Wolfkisser",
-    job: "Engineer",
-    email: "rob_wolf@gmail.com",
-  },
-  {
-    id: "2",
-    avatar:
-      "https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-7.png",
-    name: "Jill Jailbreaker",
-    job: "Engineer",
-    email: "jj@breaker.com",
-  },
-  {
-    id: "3",
-    avatar:
-      "https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-2.png",
-    name: "Henry Silkeater",
-    job: "Designer",
-    email: "henry@silkeater.io",
-  },
-  {
-    id: "4",
-    avatar:
-      "https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-3.png",
-    name: "Bill Horsefighter",
-    job: "Designer",
-    email: "bhorsefighter@gmail.com",
-  },
-  {
-    id: "5",
-    avatar:
-      "https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-10.png",
-    name: "Jeremy Footviewer",
-    job: "Manager",
-    email: "jeremy@foot.dev",
-  },
-];
 
 export function RegisterTable() {
   const token = localStorage.getItem("token");
+  const [users, setUsers] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
   const fetchUsers = async () => {
     try {
+      setLoading(true);
+      setError(null);
       const response = await fetch("http://localhost:4000/api/auth/users", {
         method: "GET",
         headers: {
@@ -65,18 +32,27 @@ export function RegisterTable() {
         },
       });
 
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
       const data = await response.json();
       console.log("users", data);
-      setUsers(data);
+      setUsers(Array.isArray(data) ? data : data.users || []);
     } catch (error) {
       console.error("Error fetching users:", error);
+      setError("Failed to fetch users. Please try again.");
+      setUsers([]);
+    } finally {
+      setLoading(false);
     }
   };
 
   useEffect(() => {
     fetchUsers();
   }, []);
-  const [selection, setSelection] = useState(["1"]);
+
+  const [selection, setSelection] = useState([]);
   const toggleRow = (id) =>
     setSelection((current) =>
       current.includes(id)
@@ -85,11 +61,16 @@ export function RegisterTable() {
     );
   const toggleAll = () =>
     setSelection((current) =>
-      current.length === data.length ? [] : data.map((item) => item.id)
+      current.length === users.length ? [] : users.map((item) => item.id)
     );
 
-  const rows = data.map((item) => {
+  const rows = users.map((item) => {
     const selected = selection.includes(item.id);
+    // Generate avatar initials
+    const initials = `${item?.firstName?.charAt(0) || ""}${
+      item?.lastName?.charAt(0) || ""
+    }`.toUpperCase();
+
     return (
       <Table.Tr
         key={item.id}
@@ -103,17 +84,65 @@ export function RegisterTable() {
         </Table.Td>
         <Table.Td>
           <Group gap="sm">
-            <Avatar size={26} src={item.avatar} radius={26} />
-            <Text size="sm" fw={500}>
-              {item.name}
-            </Text>
+            <Avatar size={32} radius="xl" color="blue">
+              {initials}
+            </Avatar>
+            <div>
+              <Text size="sm" fw={500}>
+                {item?.firstName} {item?.lastName}
+              </Text>
+              <Text size="xs" c="dimmed">
+                ID: {item?.id}
+              </Text>
+            </div>
           </Group>
         </Table.Td>
-        <Table.Td>{item.email}</Table.Td>
-        <Table.Td>{item.job}</Table.Td>
+        <Table.Td>
+          <Text size="sm">{item.email}</Text>
+        </Table.Td>
+        <Table.Td>
+          <Text size="sm">{item?.phoneNumber || "N/A"}</Text>
+        </Table.Td>
+        <Table.Td>
+          <Text size="sm" fw={500} c="blue">
+            {item?.role}
+          </Text>
+        </Table.Td>
       </Table.Tr>
     );
   });
+
+  // Show loading state
+  if (loading) {
+    return (
+      <Center p="xl">
+        <Loader size="md" />
+      </Center>
+    );
+  }
+
+  // Show error state
+  if (error) {
+    return (
+      <Alert
+        icon={<IconAlertCircle size={16} />}
+        title="Error"
+        color="red"
+        mb="md"
+      >
+        {error}
+      </Alert>
+    );
+  }
+
+  // Show empty state
+  if (users.length === 0) {
+    return (
+      <Center p="xl">
+        <Text c="dimmed">No users found</Text>
+      </Center>
+    );
+  }
 
   return (
     <ScrollArea>
@@ -123,15 +152,16 @@ export function RegisterTable() {
             <Table.Th w={40}>
               <Checkbox
                 onChange={toggleAll}
-                checked={selection.length === data.length}
+                checked={selection.length === users.length && users.length > 0}
                 indeterminate={
-                  selection.length > 0 && selection.length !== data.length
+                  selection.length > 0 && selection.length !== users.length
                 }
               />
             </Table.Th>
             <Table.Th>User</Table.Th>
             <Table.Th>Email</Table.Th>
-            <Table.Th>Job</Table.Th>
+            <Table.Th>Phone</Table.Th>
+            <Table.Th>Role</Table.Th>
           </Table.Tr>
         </Table.Thead>
         <Table.Tbody>{rows}</Table.Tbody>

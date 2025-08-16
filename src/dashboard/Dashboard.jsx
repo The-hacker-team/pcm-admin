@@ -33,8 +33,11 @@ import {
 import classes from "./dashboard.module.css";
 import { getUserFromToken, clearAuth } from "../utils/auth";
 import { useNavigate } from "react-router-dom";
-import { RegisterUser } from "../pages/RegisterUser";
+// import { RegisterUser } from "../components/RegisterUser";
 import { RegisterTable } from "../components/RegisterTable";
+import { RegisterUser } from "../pages/RegisterUser";
+// import { RegisterTable } from "../components/RegisterTable";
+// import { RegisterTable } from "../components/RegisterTable";
 
 const data = [
   { link: "", label: "Overview", icon: IconDashboard },
@@ -221,27 +224,30 @@ export function Dashboard() {
           )}
 
           {active === "Register users" && (
-            <Box>
-              <div
+            <div>
+              <Box
                 style={{
                   display: "flex",
                   justifyContent: "space-between",
                   alignItems: "center",
+                  marginBottom: "20px",
                 }}
               >
-                <div>
+                <Group>
                   <Text size="lg" fw={500} mb="md">
                     User Management
+                    <Text c="dimmed" mb="lg">
+                      Register new users to the platform and manage their access
+                      levels.
+                    </Text>
                   </Text>
-                  <Text c="dimmed" mb="lg">
-                    Register new users to the platform and manage their access
-                    levels.
-                  </Text>
-                </div>
-                <RegisterUser />
-              </div>
+                </Group>
+                <Group mb="lg">
+                  <RegisterUser />
+                </Group>
+              </Box>
               <RegisterTable />
-            </Box>
+            </div>
           )}
 
           {active === "Register Members" && (
