@@ -219,14 +219,22 @@ export function Dashboard() {
           )}
 
           {active === "Register users" && (
-            <div>
-              <Text size="lg" fw={500} mb="md">
-                User Management
-              </Text>
-              <Text c="dimmed" mb="lg">
-                Register new users to the platform and manage their access
-                levels.
-              </Text>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+              }}
+            >
+              <div>
+                <Text size="lg" fw={500} mb="md">
+                  User Management
+                </Text>
+                <Text c="dimmed" mb="lg">
+                  Register new users to the platform and manage their access
+                  levels.
+                </Text>
+              </div>
               <RegisterUser />
             </div>
           )}

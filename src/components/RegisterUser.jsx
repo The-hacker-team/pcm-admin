@@ -21,10 +21,10 @@ import {
 } from "@tabler/icons-react";
 
 const roleOptions = [
-  { value: "Communication", label: "Communication" },
-  { value: "Admin", label: "Admin" },
-  { value: "Manager", label: "Manager" },
-  { value: "User", label: "User" },
+  { value: "communication", label: "Communication" },
+  { value: "admin", label: "Admin" },
+  { value: "secretary", label: "secretary" },
+  { value: "treasurer", label: "Treasurer" },
 ];
 
 export function RegisterUser() {
