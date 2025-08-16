@@ -27,12 +27,14 @@ import {
   ActionIcon,
   Text,
   Avatar,
+  Box,
 } from "@mantine/core";
 // import { MantineLogo } from "@mantinex/mantine-logo";
 import classes from "./dashboard.module.css";
 import { getUserFromToken, clearAuth } from "../utils/auth";
 import { useNavigate } from "react-router-dom";
-import { RegisterUser } from "../components/RegisterUser";
+import { RegisterUser } from "../pages/RegisterUser";
+import { RegisterTable } from "../components/RegisterTable";
 
 const data = [
   { link: "", label: "Overview", icon: IconDashboard },
@@ -219,24 +221,27 @@ export function Dashboard() {
           )}
 
           {active === "Register users" && (
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
-              }}
-            >
-              <div>
-                <Text size="lg" fw={500} mb="md">
-                  User Management
-                </Text>
-                <Text c="dimmed" mb="lg">
-                  Register new users to the platform and manage their access
-                  levels.
-                </Text>
+            <Box>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                }}
+              >
+                <div>
+                  <Text size="lg" fw={500} mb="md">
+                    User Management
+                  </Text>
+                  <Text c="dimmed" mb="lg">
+                    Register new users to the platform and manage their access
+                    levels.
+                  </Text>
+                </div>
+                <RegisterUser />
               </div>
-              <RegisterUser />
-            </div>
+              <RegisterTable />
+            </Box>
           )}
 
           {active === "Register Members" && (
