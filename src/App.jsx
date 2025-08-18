@@ -11,7 +11,6 @@ import { Announcements } from "./pages/Announcements";
 import { UpcomingEvents } from "./pages/UpcomingEvents";
 import { Minutes } from "./pages/Minutes";
 import { Visitors } from "./pages/Visitors";
-import { PWABadge } from "./components/PWABadge";
 
 function App() {
   return (
@@ -32,7 +31,6 @@ function App() {
           <Route path="visitors" element={<Visitors />} />
         </Route>
       </Routes>
-      <PWABadge />
     </MantineProvider>
   );
 }
